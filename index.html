@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diagnostico AI | Vortex AI Solutions</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F4F7FB;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem}
+#app{width:100%;max-width:480px;background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,0.08);overflow:hidden}
+.header{background:#1B4F72;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:12px}
+.logo-svg{width:44px;height:44px;flex-shrink:0}
+.brand-name{font-size:16px;font-weight:600;color:#fff;letter-spacing:0.2px}
+.brand-sub{font-size:10px;color:#A9CCE3;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.body{padding:1.5rem}
+.progress-bar{height:4px;background:#E8F0F7;border-radius:2px;margin-bottom:1.5rem;overflow:hidden}
+.progress-fill{height:100%;background:#1B4F72;border-radius:2px;transition:width 0.4s ease}
+.q-label{font-size:11px;font-weight:600;color:#7F8C9A;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.8px}
+.q-text{font-size:15px;font-weight:600;color:#1A2733;line-height:1.55;margin-bottom:1.25rem}
+.option{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid #E0E8F0;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s;background:#fff}
+.option:hover{border-color:#2E86C1;background:#F0F8FF}
+.option.selected{border-color:#1B4F72;background:#EBF5FB}
+.opt-badge{min-width:26px;height:26px;border-radius:50%;border:1px solid #CBD5E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#7F8C9A;flex-shrink:0;margin-top:1px}
+.option.selected .opt-badge{background:#1B4F72;border-color:#1B4F72;color:#fff}
+.opt-text{font-size:13px;color:#2C3E50;line-height:1.5}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem}
+.btn{padding:9px 20px;border-radius:8px;border:1px solid #CBD5E0;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#2C3E50;transition:background .15s}
+.btn:hover{background:#F4F7FB}
+.btn-primary{background:#1B4F72;color:#fff;border-color:#1B4F72}
+.btn-primary:hover{background:#154060}
+.btn:disabled{opacity:.35;cursor:default}
+.intro-title{font-size:17px;font-weight:700;color:#1A2733;margin-bottom:.5rem}
+.intro-sub{font-size:14px;color:#5D6D7E;line-height:1.65;margin-bottom:1.25rem}
+.intro-meta{font-size:12px;color:#95A5A6;margin-bottom:1.5rem}
+.level-badge{display:inline-block;padding:5px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:.75rem;letter-spacing:.4px}
+.result-card{font-size:14px;color:#2C3E50;line-height:1.8;background:#F4F8FB;border-radius:10px;padding:1.1rem 1.25rem;margin:1rem 0;border:1px solid #D6E8F5}
+.result-card p{margin-bottom:.75rem}
+.result-card p:last-child{margin-bottom:0}
+.cta-box{margin-top:1rem;padding:1rem 1.25rem;border:1px solid #A9CCE3;border-radius:10px;background:#EBF5FB;text-align:center}
+.cta-box p{font-size:13px;color:#1B4F72;margin-bottom:.4rem;font-weight:500}
+.cta-box a{font-size:13px;color:#1B4F72;font-weight:700;text-decoration:none}
+.score-dots{display:flex;justify-content:center;align-items:center;gap:8px;margin:1rem 0}
+.s-dot{border-radius:50%;transition:all .3s}
+.result-title{font-size:17px;font-weight:700;color:#1A2733;margin-bottom:.25rem}
+.result-sub{font-size:12px;color:#7F8C9A;margin-bottom:.25rem}
+.pasos{margin-top:.75rem;padding:.75rem 1rem;background:#fff;border-radius:8px;border:1px solid #D6E8F5}
+.pasos-title{font-size:11px;font-weight:700;color:#1B4F72;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.5rem}
+.paso{font-size:12px;color:#2C3E50;padding:4px 0;border-bottom:1px solid #EBF5FB;line-height:1.5}
+.paso:last-child{border-bottom:none}
+.paso-num{font-weight:700;color:#1B4F72;margin-right:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="14" cy="22" rx="11" ry="14" fill="#4A4A4A" opacity="0.25"/>
+      <ellipse cx="30" cy="22" rx="11" ry="14" fill="#2E86C1" opacity="0.3"/>
+      <line x1="22" y1="9" x2="22" y2="35" stroke="white" stroke-width="1.5"/>
+      <circle cx="22" cy="22" r="6" fill="#1B4F72" stroke="white" stroke-width="1.5"/>
+      <text x="22" y="25.5" text-anchor="middle" font-size="7" font-weight="700" fill="white" font-family="sans-serif">AI</text>
+      <path d="M11 32 Q22 40 33 32" stroke="white" stroke-width="1.5" fill="none"/>
+      <path d="M9 34 Q22 43 35 34" stroke="#A9CCE3" stroke-width="1" fill="none" opacity="0.6"/>
+    </svg>
+    <div>
+      <div class="brand-name">Vortex AI Solutions</div>
+      <div class="brand-sub">Consulting · Training · Research</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div id="screen-intro">
+      <p class="intro-title">Matriz de Riesgo y Madurez AI 2026</p>
+      <p class="intro-sub">6 preguntas concretas sobre su operacion exportadora. Al final, recibe una evaluacion personalizada con su nivel de madurez y los pasos concretos a seguir.</p>
+      <p class="intro-meta">Tiempo estimado: 3 minutos</p>
+      <button class="btn btn-primary" style="width:100%;padding:12px;font-size:14px" onclick="startTest()">Iniciar diagnostico</button>
+    </div>
+
+    <div id="screen-q" style="display:none">
+      <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+      <div class="q-label" id="qlabel">Pregunta 1 de 6</div>
+      <div class="q-text" id="qtext"></div>
+      <div id="options"></div>
+      <div class="nav">
+        <button class="btn" id="btnBack" onclick="goBack()">Anterior</button>
+        <button class="btn btn-primary" id="btnNext" onclick="goNext()" disabled>Siguiente</button>
+      </div>
+    </div>
+
+    <div id="screen-result" style="display:none">
+      <div style="text-align:center">
+        <div id="level-badge" class="level-badge"></div>
+        <p class="result-title" id="level-title"></p>
+        <p class="result-sub">Evaluacion basada en sus respuestas</p>
+        <div id="score-dots" class="score-dots"></div>
+      </div>
+      <div id="result-text" class="result-card"></div>
+      <div id="pasos-block" class="pasos"></div>
+      <div class="cta-box" style="margin-top:1rem">
+        <p>Quiere conocer su hoja de ruta completa?</p>
+        <a href="mailto:contacto@vortexaisolutions.com">contacto@vortexaisolutions.com</a>
+      </div>
+      <button class="btn" style="margin-top:1rem;width:100%" onclick="restart()">Hacer el diagnostico de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const preguntas=[
+  {texto:"Como procesa hoy su empresa una orden de exportacion desde que entra hasta que esta lista para despacho?",opciones:["Todo manual: correos, Excel y llamadas. Puede tomar dias y depende de 1-2 personas clave.","Tenemos sistemas basicos pero alguien sigue consolidando la informacion manualmente.","Esta digitalizado y sistematizado, pero no automatizado.","Agentes digitales ejecutan parte del proceso con minima intervencion humana."]},
+  {texto:"Como pronostica su empresa la demanda de sus productos para los proximos 3-6 meses?",opciones:["En base a la experiencia del equipo y los pedidos del anio anterior.","Usamos hojas de calculo con historicos de ventas.","Tenemos un ERP o CRM con reportes de tendencia.","Analizamos datos de mercado, clientes y logistica en tiempo real con IA."]},
+  {texto:"Como maneja su equipo la documentacion de exportacion (facturas, packing list, certificados, permisos)?",opciones:["Se elabora manualmente cada vez; errores frecuentes generan retrasos en aduana.","Usamos plantillas pero la revision y envio sigue siendo manual.","Un sistema genera documentos automaticamente, pero alguien los revisa y corrige.","El proceso es automatizado: genera, valida y envia documentos con minima intervencion."]},
+  {texto:"Si un proveedor clave le falla hoy, cuanto tarda su empresa en detectarlo y reaccionar?",opciones:["Nos enteramos cuando ya hay un problema: retrasos en entrega o clientes quejandose.","Lo detectamos en nuestras reuniones semanales de operaciones.","Tenemos alertas en nuestro sistema, pero la respuesta sigue siendo reactiva.","Monitoreo en tiempo real con alertas automaticas y planes de contingencia activados."]},
+  {texto:"Como usa su empresa las herramientas de inteligencia artificial hoy?",opciones:["No usamos IA formalmente; quizas alguien usa ChatGPT por su cuenta.","Algunas personas usan IA para tareas individuales: redactar, resumir, buscar.","La empresa tiene herramientas institucionales de IA para procesos especificos.","La IA ejecuta tareas operativas, genera reportes y toma decisiones rutinarias."]},
+  {texto:"Donde vive el conocimiento critico de su empresa (procedimientos, contactos, lecciones aprendidas)?",opciones:["En la cabeza de personas clave. Si se van, se llevan el conocimiento.","En correos, WhatsApp y documentos dispersos dificiles de encontrar.","Documentado en manuales y carpetas compartidas.","En una base de conocimiento centralizada que la IA puede consultar y actualizar."]}
+];
+
+const niveles=[
+  {label:"Nivel inicial",color:"#C0392B",bg:"#FDEDEC",textColor:"#922B21"},
+  {label:"Digitalizacion basica",color:"#D68910",bg:"#FEF9E7",textColor:"#9A6400"},
+  {label:"Empresa en transicion",color:"#1F618D",bg:"#EBF5FB",textColor:"#154360"},
+  {label:"Empresa aumentada",color:"#1E8449",bg:"#E9F7EF",textColor:"#145A32"}
+];
+
+const evaluaciones = [
+  {
+    parrafos: [
+      "Su empresa opera hoy de manera predominantemente manual y reactiva. El conocimiento critico vive en personas clave, los procesos dependen de Excel y correos, y la toma de decisiones ocurre despues de que los problemas ya se materializaron. Eso tiene un costo real: tiempo perdido, errores que se convierten en retrasos en aduana y una vulnerabilidad alta ante la salida de cualquier colaborador estrategico.",
+      "El riesgo competitivo es concreto: mientras su empresa tarda dias en consolidar una orden de exportacion, competidores que ya operan en Nivel 3 lo hacen en minutos. La brecha no es de talento ni de intencion — es de velocidad cognitiva organizacional. Y esa brecha se ensancha cada mes que pasa sin accion.",
+      "La buena noticia es que el punto de partida no determina el destino. El primer paso no es una gran inversion tecnologica — es ordenar la casa: centralizar la informacion, documentar los procesos criticos y eliminar la dependencia de personas especificas. Eso solo, en 60 dias, cambia el piso sobre el que se construye todo lo demas.",
+      "La ventana para decidir con soberania todavia esta abierta. Las empresas que actuen ahora tendran ventaja; las que esperen, tendran que alcanzar a las que ya corrieron."
+    ],
+    pasos: [
+      "Mapear los 3 procesos mas criticos y documentarlos por escrito esta semana",
+      "Centralizar informacion clave en una plataforma compartida (Google Drive o similar)",
+      "Agendar un diagnostico profundo con Vortex AI Solutions para disenar su hoja de ruta"
+    ]
+  },
+  {
+    parrafos: [
+      "Su empresa ha dado pasos importantes: ya no opera completamente a ciegas y tiene sistemas basicos que le dan estructura. Sin embargo, digitalizaron sin automatizar — y esa es exactamente la trampa en la que se encuentran muchas empresas exportadoras de la region hoy. Tienen datos, pero alguien sigue consolidandolos manualmente. Tienen sistemas, pero no se hablan entre si.",
+      "El riesgo especifico en su caso es la falsa sensacion de seguridad. La digitalizacion basica protege contra el caos, pero no contra la obsolescencia. Un competidor que opere en Nivel 3 — con agentes digitales ejecutando flujos de trabajo — reducira sus costos de back-office entre un 20% y 30% este anio. Esa diferencia se acumula.",
+      "El siguiente paso no requiere una transformacion radical. Requiere conectar lo que ya tienen: integrar los sistemas existentes, eliminar los puntos de consolidacion manual y activar la primera capa de automatizacion en el proceso de mayor volumen. Ese es el salto del Nivel 2 al Nivel 3, y es mas cercano de lo que parece.",
+      "Tiene bases solidas. Ahora se trata de usarlas de forma mas inteligente."
+    ],
+    pasos: [
+      "Identificar el proceso manual que mas tiempo consume y diseniar su automatizacion",
+      "Evaluar la integracion de sus sistemas actuales (ERP, CRM, logistica) en una sola fuente de verdad",
+      "Explorar herramientas de agentes digitales (Zapier, Lindy) para flujos de exportacion"
+    ]
+  },
+  {
+    parrafos: [
+      "Su empresa esta en un momento estrategico clave: ya supero la digitalizacion basica y tiene elementos de sistematizacion funcionando. Eso la pone por encima del promedio regional. Pero estar en transicion significa que todavia no captura el valor completo de lo que ha construido — hay procesos que siguen siendo reactivos y oportunidades de automatizacion que aun no se han activado.",
+      "El riesgo en este nivel es la complacencia. Las empresas en transicion a veces sienten que 'ya estan haciendo lo correcto' y reducen la velocidad de cambio. Mientras tanto, las que ya operan en Nivel 4 o 5 empiezan a generar ventajas que son muy dificiles de alcanzar despues.",
+      "Su prioridad ahora es pasar de la digitalizacion parcial a la automatizacion inteligente. Eso significa activar agentes digitales en los flujos de mayor volumen, construir un sistema de alertas proactivo en su cadena de suministro y empezar a tratar el conocimiento organizacional como un activo estrategico — no como algo que vive en documentos dispersos.",
+      "Tiene el momentum. El momento de acelerar es ahora, antes de que la brecha con los lideres del sector sea dificil de cerrar."
+    ],
+    pasos: [
+      "Activar automatizacion inteligente en documentacion de exportacion y seguimiento logistico",
+      "Implementar un sistema de alertas proactivo ante fallas de proveedores o variaciones de demanda",
+      "Iniciar la construccion de una base de conocimiento centralizada accesible para toda la organizacion"
+    ]
+  },
+  {
+    parrafos: [
+      "Su empresa opera en la frontera competitiva de la region. Ya tiene IA integrada en procesos operativos, toma decisiones con datos en tiempo real y ha reducido su dependencia de procesos manuales criticos. Eso es un logro significativo que la mayoria de empresas exportadoras de Centroamerica todavia no ha alcanzado.",
+      "El riesgo en este nivel no es quedarse atras — es no escalar. Una empresa aumentada que no avanza hacia la coordinacion de multiples agentes y la soberania tecnologica propia empieza a depender excesivamente de plataformas externas que no controla. La proxima frontera es construir inteligencia propia: sistemas entrenados con sus datos, sus procesos y su conocimiento estrategico.",
+      "Su siguiente movimiento debe ser estrategico: evaluar como coordinar agentes especializados en diferentes areas de la operacion, proteger sus datos y conocimiento interno de herramientas publicas, y empezar a disenar lo que seria su arquitectura de IA propia. Eso es lo que separa a las empresas que usan IA de las empresas que piensan con IA.",
+      "Esta en el lugar correcto, en el momento correcto. La pregunta ahora es con que velocidad y con que arquitectura va a llegar al siguiente nivel."
+    ],
+    pasos: [
+      "Disenar una arquitectura de agentes coordinados para sus procesos de mayor impacto",
+      "Establecer una politica de soberania de datos: que informacion puede ir a plataformas publicas y cual no",
+      "Explorar el desarrollo de sistemas de IA entrenados con datos propios de la empresa"
+    ]
+  }
+];
+
+let current=0,answers=[];
+
+function startTest(){
+  document.getElementById('screen-intro').style.display='none';
+  document.getElementById('screen-q').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  const q=preguntas[current];
+  document.getElementById('qlabel').textContent='Pregunta '+(current+1)+' de '+preguntas.length;
+  document.getElementById('qtext').textContent=q.texto;
+  document.getElementById('prog').style.width=((current/preguntas.length)*100)+'%';
+  document.getElementById('btnBack').disabled=current===0;
+  document.getElementById('btnNext').disabled=answers[current]===undefined;
+  document.getElementById('btnNext').textContent=current===preguntas.length-1?'Ver mi resultado':'Siguiente';
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  q.opciones.forEach((o,i)=>{
+    const letters=['A','B','C','D'];
+    const div=document.createElement('div');
+    div.className='option'+(answers[current]===i?' selected':'');
+    div.innerHTML=`<div class="opt-badge">${letters[i]}</div><div class="opt-text">${o}</div>`;
+    div.onclick=()=>{answers[current]=i;renderQ();};
+    opts.appendChild(div);
+  });
+}
+
+function goBack(){if(current>0){current--;renderQ();}}
+
+function goNext(){
+  if(answers[current]===undefined)return;
+  if(current<preguntas.length-1){current++;renderQ();}
+  else showResult();
+}
+
+function showResult(){
+  document.getElementById('screen-q').style.display='none';
+  document.getElementById('screen-result').style.display='block';
+
+  const score=answers.reduce((s,a)=>s+a,0);
+  const pct=score/(preguntas.length*3);
+  const nivelIdx=pct<0.25?0:pct<0.5?1:pct<0.75?2:3;
+  const nivel=niveles[nivelIdx];
+  const eval_=evaluaciones[nivelIdx];
+
+  const badge=document.getElementById('level-badge');
+  badge.textContent=nivel.label;
+  badge.style.background=nivel.bg;
+  badge.style.color=nivel.textColor;
+  badge.style.border='1px solid '+nivel.color;
+  document.getElementById('level-title').textContent='Su empresa: '+nivel.label;
+
+  const dots=document.getElementById('score-dots');
+  dots.innerHTML='';
+  niveles.forEach((n,i)=>{
+    const d=document.createElement('div');
+    d.className='s-dot';
+    d.style.background=i<=nivelIdx?n.color:'#E0E8F0';
+    d.style.width=i===nivelIdx?'16px':'10px';
+    d.style.height=i===nivelIdx?'16px':'10px';
+    dots.appendChild(d);
+  });
+
+  const rt=document.getElementById('result-text');
+  rt.innerHTML='';
+  eval_.parrafos.forEach(p=>{
+    const el=document.createElement('p');
+    el.textContent=p;
+    rt.appendChild(el);
+  });
+
+  const pb=document.getElementById('pasos-block');
+  pb.innerHTML='<div class="pasos-title">Sus proximos pasos concretos</div>';
+  eval_.pasos.forEach((paso,i)=>{
+    const el=document.createElement('div');
+    el.className='paso';
+    el.innerHTML=`<span class="paso-num">${i+1}.</span>${paso}`;
+    pb.appendChild(el);
+  });
+}
+
+function restart(){
+  current=0;answers=[];
+  document.getElementById('screen-result').style.display='none';
+  document.getElementById('screen-intro').style.display='block';
+}
+</script>
+</body>
+</html>
